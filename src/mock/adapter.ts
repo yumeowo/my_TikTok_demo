@@ -2,53 +2,9 @@
  * MediaCrawler 数据清洗工具
  * 将爬虫的原始复杂 JSON 转换为前端组件需要的简单结构
  */
+import type { Comment, VideoItem } from '@/types';
 
-// 1. 定义我们前端组件需要的结构 (Target Interface)
-
-// 评论数据接口
-export interface Comment {
-  id: string;
-  content: string;
-  createTime: number;
-  ipLocation: string;
-  author: {
-    id: string;
-    name: string;
-    avatar: string;
-  };
-  stats: {
-    likeCount: number;
-    subCommentCount: number;
-  };
-  parentCommentId: string;
-  pictures: string[];
-}
-
-// 视频数据接口
-export interface VideoItem {
-  id: string;
-  title: string;
-  desc: string;
-  videoUrl: string;
-  coverUrl: string;
-  createTime: number;
-  author: {
-    id: string;
-    name: string;
-    avatar: string;
-  };
-  stats: {
-    diggCount: number; // 点赞
-    commentCount: number; // 评论
-    shareCount: number; // 分享
-    collectedCount: number; // 收藏
-  };
-  comments: Comment[]; // 关联的评论列表
-  sourceKeyword?: string; // 搜索关键词
-}
-
-// 2. 定义爬虫原始数据的部分结构 (Source Interface - 参考 MediaCrawler 输出)
-
+// 定义爬虫原始数据的部分结构 (Source Interface - 参考 MediaCrawler 输出)
 // 爬虫视频数据原始结构
 interface CrawlerRawContent {
   aweme_id: string;
@@ -101,7 +57,7 @@ export const normalizeComment = (raw: CrawlerRawComment): Comment => {
   const safeNumber = (value: string | number): number => {
     if (typeof value === 'number') return value;
     const parsed = Number.parseInt(value, 10);
-    return Number.isNaN(parsed) ? 0 : parsed;
+    return Number.isNaN(parsed)? 0 : parsed;
   };
 
   return {
@@ -132,7 +88,7 @@ export const normalizeContent = (raw: CrawlerRawContent): VideoItem => {
   const safeNumber = (value: string | number): number => {
     if (typeof value === 'number') return value;
     const parsed = Number.parseInt(value, 10);
-    return Number.isNaN(parsed) ? 0 : parsed;
+    return Number.isNaN(parsed)? 0 : parsed;
   };
 
   return {
