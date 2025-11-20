@@ -24,6 +24,13 @@
       "recommended": true,
       "suspicious": {
         "noDuplicateFontNames": "off"
+      },
+      "complexity": {
+        "noForEach":"off"
+      },
+      "style": {
+        "noNonNullAssertion": "off",
+        "useNamingConvention": "off"
       }
     }
   },
