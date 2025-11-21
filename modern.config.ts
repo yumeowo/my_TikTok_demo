@@ -5,6 +5,11 @@ export default defineConfig({
   runtime: {
     router: true,
   },
+  html: {
+    meta: {
+      referrer: 'no-referrer'
+    }
+  },
   plugins: [
     appTools({
       bundler: 'rspack', // Set to 'webpack' to enable webpack
