@@ -35,7 +35,7 @@
     }
   },
   "organizeImports": {
-    "enabled": true
+    "enabled": false
   },
   "files": {
     "ignoreUnknown": true,
