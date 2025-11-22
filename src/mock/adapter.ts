@@ -6,7 +6,7 @@ import type { Comment, VideoItem } from '@/types';
 
 // 定义爬虫原始数据的部分结构 (Source Interface - 参考 MediaCrawler 输出)
 // 爬虫视频数据原始结构
-interface CrawlerRawContent {
+export interface CrawlerRawContent {
   aweme_id: string;
   title: string;
   desc: string;
@@ -24,7 +24,7 @@ interface CrawlerRawContent {
 }
 
 // 爬虫评论数据原始结构
-interface CrawlerRawComment {
+export interface CrawlerRawComment {
   comment_id: string;
   aweme_id: string;
   content: string;
