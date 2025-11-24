@@ -36,6 +36,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
+    "@douyinfe/semi-rspack-plugin": "^2.88.3",
     "@modern-js/app-tools": "2.68.20",
     "@modern-js/tsconfig": "2.68.20",
     "@types/jest": "~29.2.4",
