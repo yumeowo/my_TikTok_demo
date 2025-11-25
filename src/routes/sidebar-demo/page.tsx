@@ -1,6 +1,6 @@
 import type React from 'react';
 import { Toast } from '@douyinfe/semi-ui';
-import Sidebar from '@/components/organisms/Sidebar';
+import { Sidebar } from '@/components/organisms/Sidebar';
 
 const SidebarDemo: React.FC = () => {
   const handleRefresh = () => {
