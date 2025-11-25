@@ -24,7 +24,7 @@ export function SearchBox ({
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Custom hook for history management
-  const { history, addHistory, clearHistory } = useSearchHistory(
+  const { history, addHistory, clearHistory, removeHistory } = useSearchHistory(
     storageKey,
     maxHistory,
   );
@@ -94,6 +94,14 @@ export function SearchBox ({
   };
 
   /**
+   * Handle delete single history item
+   * Removes a specific history item by id
+   */
+  const handleDeleteHistory = (id: string) => {
+    removeHistory(id);
+  };
+
+  /**
    * Handle click outside to close history panel
    */
   useEffect(() => {
@@ -145,7 +153,7 @@ export function SearchBox ({
   return (
     <div
       ref={containerRef}
-      className={`relative w-full max-w-2xl ${className}`}
+      className={`relative w-full max-w-2xl font-normal ${className}`}
       onMouseEnter={() => {
         setIsHovered(true);
         if (history.length > 0) {
@@ -190,6 +198,7 @@ export function SearchBox ({
         visible={showHistory}
         onSelectHistory={handleSelectHistory}
         onClearHistory={handleClearHistory}
+        onDeleteHistory={handleDeleteHistory}
       />
     </div>
   );

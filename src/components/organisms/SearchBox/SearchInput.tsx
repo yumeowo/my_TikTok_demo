@@ -1,5 +1,4 @@
 import type React from 'react';
-import { useState } from 'react';
 import { IconSearchStroked } from '@douyinfe/semi-icons';
 import type { SearchInputProps } from './types';
 
@@ -13,7 +12,6 @@ export function SearchInput ({
   onEnter,
   onSearch,
 }: SearchInputProps){
-  const [isButtonActive, setIsButtonActive] = useState(false);
 
   /**
    * Handle keyboard events
@@ -37,7 +35,7 @@ export function SearchInput ({
   return (
     <div
       className={`
-        relative w-full m-1 inline-flex items-center rounded-xl overflow-hidden transition-all duration-300
+        relative w-full m-1 flex items-center rounded-xl overflow-hidden transition-all duration-300
         ${
           isFocused
             ? 'bg-[#161823] border-2 border-white shadow-none'
@@ -55,7 +53,7 @@ export function SearchInput ({
         onBlur={onBlur}
         onKeyDown={handleKeyDown}
         className={`
-          flex-1 h-10 px-4 outline-none text-white text-sm
+          flex-1 h-10 px-4 outline-none text-white text-[16px]
           bg-transparent
           placeholder:text-[#65676e]
         `}
@@ -72,20 +70,17 @@ export function SearchInput ({
           onSearch();
           onChange('');
         }}
-        onMouseDown={() => setIsButtonActive(true)}
-        onMouseUp={() => setIsButtonActive(false)}
-        onMouseLeave={() => setIsButtonActive(false)}
         className={`
           flex items-center justify-center gap-1 px-4 h-10
-          text-sm font-medium transition-all duration-300
+          text-[16px] font-medium transition-all duration-300
           ${
             isFocused
-              ? `bg-white ${isButtonActive ? 'text-[#393a44]' : 'text-[#51525a]'}`
+              ? 'bg-white text-[#161823]'
               : 'bg-transparent text-white'
           }
         `}
       >
-        <IconSearchStroked size="small" />
+        <IconSearchStroked />
         <span>搜索</span>
       </button>
     </div>

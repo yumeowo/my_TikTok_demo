@@ -1,6 +1,6 @@
 import type React from 'react';
 import { Tag, Button, Empty } from '@douyinfe/semi-ui';
-import { IconClose } from '@douyinfe/semi-icons';
+import { IconDeleteStroked } from '@douyinfe/semi-icons';
 import type { SearchHistoryProps } from './types';
 
 export function SearchHistory ({
@@ -8,6 +8,7 @@ export function SearchHistory ({
   visible,
   onSelectHistory,
   onClearHistory,
+  onDeleteHistory,
 }: SearchHistoryProps) {
   if (!visible) {
     return null;
@@ -15,27 +16,21 @@ export function SearchHistory ({
 
   return (
     <div
-      className="absolute top-full left-0 right-0 mt-2 bg-[#1a1a1a] border-2 border-[#2a2a2a] rounded-lg shadow-2xl z-50 overflow-hidden"
-      style={{
-        maxHeight: '400px',
-      }}
+      className="absolute top-full left-0 right-0 mt-2 bg-[#252632]
+      border-2 border-[#2a2a2a] rounded-lg shadow-2xl
+      z-50 overflow-hidden max-h-[400px]"
     >
       {history.length > 0 ? (
         <>
           {/* Header with clear button */}
-          <div className="flex items-center justify-between px-4 py-3 border-b border-[#2a2a2a] bg-[#0f0f0f]">
-            <span className="text-gray-400 text-sm font-medium">历史记录</span>
+          <div className="flex items-center justify-between px-4 pt-3 pb-1 bg-[#252632]">
+            <span className="text-gray-400 text-[12px] font-bold">历史记录</span>
             <Button
               type="tertiary"
               size="small"
-              icon={<IconClose />}
+              icon={<IconDeleteStroked size="small" />}
               onClick={onClearHistory}
-              className="text-gray-500 hover:text-[#ff0050] transition-colors duration-200"
-              style={{
-                backgroundColor: 'transparent',
-                border: 'none',
-                padding: '4px 8px',
-              }}
+              className="text-gray-500 text-[12px] hover:text-[#fff] transition-colors duration-200 py-2"
             >
               清除记录
             </Button>
@@ -44,33 +39,61 @@ export function SearchHistory ({
           {/* History items as tags */}
           <div className="p-4 flex flex-wrap gap-2 max-h-[340px] overflow-y-auto custom-scrollbar">
             {history.map((item) => (
-              <Tag
-                key={item.id}
-                size="large"
-                onClick={() => onSelectHistory(item.keyword)}
-                className="
-                  bg-[#2a2a2a]
-                  text-gray-300
-                  border-none
-                  cursor-pointer
-                  hover:bg-[#3a3a3a]
-                  hover:text-white
-                  transition-all
-                  duration-200
-                  px-4
-                  py-2
-                  rounded-full
-                  text-sm
-                  font-normal
-                "
-                style={{
-                  backgroundColor: '#2a2a2a',
-                  color: '#d1d5db',
-                  border: 'none',
-                }}
-              >
-                {item.keyword}
-              </Tag>
+              <div key={item.id} className="relative group">
+                <Tag
+                  size="large"
+                  onClick={() => onSelectHistory(item.keyword)}
+                  className="
+                    bg-[#33343f]
+                    text-white
+                    border-none
+                    cursor-pointer
+                    hover:bg-[#5d5f67]
+                    rounded-[5px]
+                    px-4
+                    py-2
+                    pr-6
+                    text-[12px]
+                    font-normal
+                  "
+                >
+                  {item.keyword}
+                </Tag>
+                {/* Delete button - small circle with X */}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDeleteHistory(item.id);
+                  }}
+                  className="
+                    absolute
+                    -top-1
+                    -right-1
+                    w-4
+                    h-4
+                    flex
+                    items-center
+                    justify-center
+                    bg-[#33343f]
+                    text-gray-400
+                    rounded-full
+                    border
+                    border-gray-600
+                    opacity-0
+                    group-hover:opacity-100
+                    hover:bg-[#4a4b56]
+                    hover:text-white
+                    transition-all
+                    duration-200
+                    text-[10px]
+                    leading-none
+                  "
+                  aria-label={`删除搜索记录: ${item.keyword}`}
+                >
+                  ×
+                </button>
+              </div>
             ))}
           </div>
         </>

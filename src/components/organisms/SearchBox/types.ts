@@ -114,6 +114,11 @@ export interface SearchHistoryProps {
    * Callback when clear history button is clicked
    */
   onClearHistory: () => void;
+
+  /**
+   * Callback when a single history item is deleted
+   */
+  onDeleteHistory: (id: string) => void;
 }
 
 /**
