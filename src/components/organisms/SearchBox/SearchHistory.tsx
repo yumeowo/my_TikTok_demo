@@ -3,18 +3,12 @@ import { Tag, Button, Empty } from '@douyinfe/semi-ui';
 import { IconClose } from '@douyinfe/semi-icons';
 import type { SearchHistoryProps } from './types';
 
-/**
- * SearchHistory Component
- *
- * Displays search history as clickable tags with clear functionality.
- * Shows "历史记录" header with "清除记录" button.
- */
-export const SearchHistory: React.FC<SearchHistoryProps> = ({
+export function SearchHistory ({
   history,
   visible,
   onSelectHistory,
   onClearHistory,
-}) => {
+}: SearchHistoryProps) {
   if (!visible) {
     return null;
   }
@@ -133,4 +127,4 @@ export const SearchHistory: React.FC<SearchHistoryProps> = ({
       </style>
     </div>
   );
-};
+}

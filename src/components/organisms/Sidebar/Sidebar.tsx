@@ -4,11 +4,11 @@ import { IconRefresh } from '@douyinfe/semi-icons';
 import { NAV_ITEMS, BOTTOM_ACTIONS } from './constants';
 import type { SidebarProps } from './types';
 
-const Sidebar: React.FC<SidebarProps> = ({
+export function Sidebar ({
   selectedItem = 'recommend',
   onRefresh,
   className = '',
-}) => {
+}: SidebarProps) {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
 
   const handleNavClick = (itemId: string) => {
@@ -132,6 +132,4 @@ const Sidebar: React.FC<SidebarProps> = ({
       </div>
     </div>
   );
-};
-
-export default Sidebar;
+}

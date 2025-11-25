@@ -3,13 +3,7 @@ import { useState } from 'react';
 import { IconSearchStroked } from '@douyinfe/semi-icons';
 import type { SearchInputProps } from './types';
 
-/**
- * SearchInput Component
- *
- * Renders the search input field with integrated search button.
- * Handles focus states, keyboard events, and search triggering.
- */
-export const SearchInput: React.FC<SearchInputProps> = ({
+export function SearchInput ({
   value,
   placeholder,
   isFocused,
@@ -18,7 +12,7 @@ export const SearchInput: React.FC<SearchInputProps> = ({
   onBlur,
   onEnter,
   onSearch,
-}) => {
+}: SearchInputProps){
   const [isButtonActive, setIsButtonActive] = useState(false);
 
   /**
@@ -96,4 +90,4 @@ export const SearchInput: React.FC<SearchInputProps> = ({
       </button>
     </div>
   );
-};
+}

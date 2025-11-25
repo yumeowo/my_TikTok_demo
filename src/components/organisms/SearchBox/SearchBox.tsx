@@ -5,13 +5,13 @@ import { SearchHistory } from './SearchHistory';
 import { useSearchHistory } from './useSearchHistory';
 import type { SearchBoxProps } from './types';
 
-const SearchBox: React.FC<SearchBoxProps> = ({
+export function SearchBox ({
   placeholder = '搜索你感兴趣的内容',
   maxHistory = 15,
   onSearch,
   className = '',
   storageKey = 'douyin_search_history',
-}) => {
+}: SearchBoxProps) {
   // State management
   const [searchValue, setSearchValue] = useState('');
   // Visual focus when hovering or after click (sticky)
@@ -193,6 +193,4 @@ const SearchBox: React.FC<SearchBoxProps> = ({
       />
     </div>
   );
-};
-
-export default SearchBox;
+}

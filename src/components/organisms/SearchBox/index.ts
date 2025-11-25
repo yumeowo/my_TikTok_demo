@@ -4,6 +4,6 @@
  */
 
 // SearchBox components
-export { default as SearchBox } from './SearchBox';
+export { SearchBox } from './SearchBox';
 export type { SearchBoxProps } from './types';
 export { useSearchHistory } from './useSearchHistory';
