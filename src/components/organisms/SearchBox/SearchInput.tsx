@@ -39,7 +39,7 @@ export function SearchInput ({
         ${
           isFocused
             ? 'bg-[#161823] border-2 border-white shadow-none'
-            : 'bg-[#393a44] border-2 border-transparent shadow-[inset_0_0_0_1px_rgba(255,255,255,0.3)]'
+            : 'bg-[#393a44] border-2 border-transparent'
         }
       `}
     >
