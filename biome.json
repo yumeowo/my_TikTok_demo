@@ -31,6 +31,9 @@
       "style": {
         "noNonNullAssertion": "off",
         "useNamingConvention": "off"
+      },
+      "a11y": {
+        "noSvgWithoutTitle": "off"
       }
     }
   },
@@ -39,6 +42,7 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "ignore": [".vscode/**/*", "node_modules/**/*", "dist/**/*"]
+    "ignore": [".vscode/**/*", "node_modules/**/*", "dist/**/*"],
+    "maxSize": 5242880
   }
 }
