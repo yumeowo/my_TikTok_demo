@@ -21,18 +21,10 @@ export function ReplyList({
           animate={{ height: 'auto', opacity: 1 }}
           exit={{ height: 0, opacity: 0 }}
           transition={{ duration: ANIMATION_DURATION.normal }}
-          className="relative overflow-hidden"
+          className="overflow-hidden bg-black"
         >
-          {/* 左侧连接线 */}
-          <div
-            className="absolute left-5 top-0 bottom-0 w-0.5"
-            style={{
-              background: 'linear-gradient(to bottom, #e5e7eb 0%, transparent 100%)',
-            }}
-          />
-
-          {/* 回复列表 */}
-          <div className="ml-13 space-y-1">
+          {/* 回复列表 - 左侧缩进 */}
+          <div className="ml-10">
             {replies.map((reply) => (
               <ReplyItem
                 key={reply.id}

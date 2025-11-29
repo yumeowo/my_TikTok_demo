@@ -4,7 +4,7 @@ import {
   IconChevronUp,
   IconMoreStroked,
   IconCommentStroked,
-  IconForwardStroked,
+  IconCopyStroked,
   IconHeartStroked,
   IconDeleteStroked,
   IconLikeHeart
@@ -140,15 +140,16 @@ export function CommentItem({
               <span>评论</span>
             </motion.button>
 
-            {/* 分享按钮 */}
+            {/* 复制评论按钮 */}
             <motion.button
               type="button"
+              onClick={() => onCopyComment(comment.content)}
               whileTap={{ scale: LIKE_ANIMATION.tapScale }}
               className="flex items-center gap-1 text-[12px] text-[#595959] hover:text-white"
-              aria-label="分享"
+              aria-label="复制评论"
             >
-              <IconForwardStroked />
-              <span>分享</span>
+              <IconCopyStroked />
+              <span>复制评论</span>
             </motion.button>
 
             {/* 点赞按钮 */}

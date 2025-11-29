@@ -12,6 +12,7 @@ export function CommentInput({
   placeholder = COMMENT_INPUT_CONFIG.placeholder,
 }: CommentInputProps) {
   const [value, setValue] = useState('');
+  const [isFocused, setIsFocused] = useState(false);
 
   // 处理提交
   const handleSubmit = useCallback(() => {
@@ -54,11 +55,13 @@ export function CommentInput({
   )
 
   return (
-    <div className="w-full h-[42px] flex items-center bg-[#333333] rounded-xl px-2 border-[1px] border-transparent hover:border-white">
+    <div className={`w-full h-[42px] flex items-center bg-[#333333] rounded-xl px-2 border-[1px] ${isFocused ? 'border-white' : 'border-transparent hover:border-white'}`}>
       <Input
         value={value}
         onChange={setValue}
         onKeyDown={handleKeyDown}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
         placeholder={placeholder}
         showClear
         className="text-[#e6e6e6] px-3"
