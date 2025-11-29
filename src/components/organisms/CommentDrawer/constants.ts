@@ -11,8 +11,7 @@ export const ANIMATION_DURATION = {
  * 评论输入框配置
  */
 export const COMMENT_INPUT_CONFIG = {
-  placeholder: '留下你的精彩评论吧～',
-  maxLength: 500,
+  placeholder: '留下你的精彩评论吧',
   submitButtonText: '发布',
 } as const;
 

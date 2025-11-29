@@ -83,5 +83,4 @@ export interface ReplyItemProps {
 export interface CommentInputProps {
   onSubmit: (content: string) => void; // 提交回调
   placeholder?: string; // 占位符
-  maxLength?: number; // 最大长度
 }

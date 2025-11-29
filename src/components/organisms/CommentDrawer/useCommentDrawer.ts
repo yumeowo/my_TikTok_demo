@@ -58,14 +58,14 @@ export function useCommentDrawer(initialComments: Comment[]) {
         id: generateTempCommentId(),
         content,
         createTime: Date.now(),
-        ipLocation: '未知', // 实际应从用户信息获取
+        ipLocation: '秦皇岛', // 实际应从用户信息获取
         author: {
           id: authorId,
-          name: '当前用户', // 实际应从用户信息获取
-          avatar: 'https://lf3-cdn-tos.bytescm.com/obj/static/xitu_juejin_web/default_avatar.png',
+          name: '悠梦', // 实际应从用户信息获取
+          avatar: 'http://lz.sinaimg.cn/large/0084zAyygy1i7tp71zrc4j30q40q4wg5.jpg',
         },
         stats: {
-          likeCount: 0,
+          likeCount: 1010,
           subCommentCount: 0,
         },
         parentCommentId: '0',
@@ -77,9 +77,7 @@ export function useCommentDrawer(initialComments: Comment[]) {
 
       // 添加到列表顶部
       setComments((prev) => [newComment, ...prev]);
-    },
-    []
-  );
+    },[]);
 
   // 切换点赞状态
   const toggleLike = useCallback((commentId: string) => {
