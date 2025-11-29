@@ -1,3 +1,40 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* 自定义全局滚动条样式 */
+::-webkit-scrollbar {
+  width: 6px; /* 纵向滚动条宽度 */
+}
+
+::-webkit-scrollbar-track {
+  background: black; /* 轨道背景透明 */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #292929; /* 滚动条滑块颜色，使用类似你组件中的灰色 */
+  border-radius: 3px; /* 圆角 */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #c0c0c1; /* 悬停时变亮 */
+}
+
+/* 直接覆盖 Semi UI SideSheet footer 的背景，避免默认 padding 的影响*/
+.semi-sidesheet-footer {
+  padding: 12px !important;
+  background-color: #000000;
+}
+
+.semi-sidesheet-header {
+  background-color: #000000;
+}
+
+.semi-sidesheet-body {
+  background-color: #000000;
+}
