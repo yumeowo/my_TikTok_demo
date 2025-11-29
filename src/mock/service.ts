@@ -21,10 +21,10 @@ class MockService {
     try {
       // 导入mock data文件
       const { default: rawContents } = await import(
-        './data/search_contents_2025-11-20.json'
+        './data/search_contents.json'
       );
       const { default: rawComments } = await import(
-        './data/search_comments_2025-11-20.json'
+        './data/search_comments.json'
       );
 
       // 处理数据
