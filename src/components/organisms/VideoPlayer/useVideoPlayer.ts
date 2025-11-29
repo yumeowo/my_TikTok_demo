@@ -58,6 +58,17 @@ export function useVideoPlayer({
       controls: false, // Hide default controls
       loop: true,
       videoInit: true,
+      // Disable up/down arrow keys for volume control to avoid conflict with video switching
+      keyboard: {
+        keyCodeMap: {
+          up: {
+            disable: true, // Disable up arrow key (volume up)
+          },
+          down: {
+            disable: true, // Disable down arrow key (volume down)
+          },
+        },
+      },
     });
 
     // Event listeners

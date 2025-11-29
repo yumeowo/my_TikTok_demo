@@ -3,20 +3,13 @@
  * Left-bottom video information overlay with a gradient background
  */
 
-import { Avatar } from '@douyinfe/semi-ui';
-import { motion } from 'framer-motion';
-import { useState } from 'react';
 import type { InfoOverlayProps } from './types';
+import { formatTime } from "@/utils/format";
+import { Button } from "@douyinfe/semi-ui";
+import { IconAISearchLevel1 } from "@douyinfe/semi-icons";
 
 export function InfoOverlay({ videoInfo }: InfoOverlayProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const { title, description, author } = videoInfo;
-
-  // Truncate description if too long
-  const shouldTruncate = description.length > 60;
-  const displayDescription = isExpanded || !shouldTruncate
-    ? description
-    : `${description.slice(0, 60)}...`;
+  const { description, author } = videoInfo;
 
   return (
     <div className="absolute bottom-20 left-0 right-0 pointer-events-none z-15">
@@ -30,67 +23,35 @@ export function InfoOverlay({ videoInfo }: InfoOverlayProps) {
       />
 
       {/* Content container */}
-      <div className="relative px-4 pb-4 pointer-events-auto">
+      <div className="relative px-4 pointer-events-auto">
         {/* Author section */}
-        <div className="flex items-center gap-3 mb-3">
-          <Avatar
-            src={author.avatar}
-            alt={author.name}
-            size="default"
-            className="border-2 border-white"
-            style={{
-              width: '40px',
-              height: '40px',
-            }}
-          />
+        <div className="flex items-center gap-3 mb-2">
           <span
             className="font-semibold text-white text-base"
             style={{
               textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)',
             }}
           >
-            @{author.name}
+            @{author.name} · {formatTime(videoInfo.createTime)}
           </span>
         </div>
 
-        {/* Title */}
-        <h3
-          className="text-white font-medium text-base mb-2"
+        {/* Description */}
+        <p
+          className="text-white text-sm leading-relaxed w-[30%] break-words"
           style={{
             textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)',
           }}
         >
-          {title}
-        </h3>
+          {description}
+        </p>
 
-        {/* Description with expand/collapse */}
-        <div className="flex items-start gap-2">
-          <motion.p
-            className="text-white text-sm leading-relaxed flex-1"
-            style={{
-              textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)',
-            }}
-            animate={{
-              height: isExpanded ? 'auto' : 'auto',
-            }}
-          >
-            {displayDescription}
-          </motion.p>
-
-          {/* Expand button */}
-          {shouldTruncate && (
-            <button
-              type="button"
-              onClick={() => setIsExpanded(!isExpanded)}
-              className="text-white text-sm font-medium shrink-0 ml-1"
-              style={{
-                textShadow: '0 1px 3px rgba(0, 0, 0, 0.8)',
-              }}
-            >
-              {isExpanded ? '收起' : '展开'}
-            </button>
-          )}
-        </div>
+        <Button
+          className="bg-[#363636]/60 hover:bg-gray-500 flex items-center gap-3 px-4 py-4 mt-4 mb-[-8px] rounded-lg text-white transition-colors"
+        >
+          <IconAISearchLevel1 />
+          <div>识别画面</div>
+        </Button>
       </div>
     </div>
   );

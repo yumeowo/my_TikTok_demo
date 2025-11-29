@@ -4,11 +4,9 @@
  */
 
 import 'xgplayer/dist/index.min.css';
-import { IconPlayCircle } from '@douyinfe/semi-icons';
 import { ActionBar } from './ActionBar';
 import { InfoOverlay } from './InfoOverlay';
 import { ProgressBar } from './ProgressBar';
-import { SpeedControl } from './SpeedControl';
 import type { VideoPlayerProps } from './types';
 import { useVideoPlayer } from './useVideoPlayer';
 
@@ -21,7 +19,7 @@ export function VideoPlayer({
   onFavorite,
   onShare,
   onFollow,
-  className = '',
+  style
 }: VideoPlayerProps) {
   const {
     containerRef,
@@ -39,10 +37,19 @@ export function VideoPlayer({
     videoId,
   });
 
+  const IconPlay = () => (
+    <svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M30 48V23.7512L51 35.8756L72 48L51 60.1244L30 72.2488V48Z" fill="#b3b3b3" stroke="#b3b3b3" stroke-width="8" stroke-linejoin="round"/>
+    </svg>
+  );
+
   return (
     <div
-      className={`relative w-full h-full bg-black overflow-hidden ${className}`}
-      style={{ touchAction: 'pan-y' }}
+      className="relative h-full bg-black overflow-hidden"
+      style={ {
+        ...style,
+        touchAction: 'pan-y'
+      }}
     >
       {/* Video container */}
       <div
@@ -66,20 +73,7 @@ export function VideoPlayer({
           className="absolute inset-0 flex items-center justify-center pointer-events-none"
           style={{ zIndex: 10 }}
         >
-          <div
-            className="w-20 h-20 flex items-center justify-center rounded-full bg-black/50 backdrop-blur-sm"
-            style={{
-              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4)',
-            }}
-          >
-            <IconPlayCircle
-              size="extra-large"
-              style={{
-                color: 'white',
-                fontSize: '48px',
-              }}
-            />
-          </div>
+          <IconPlay />
         </div>
       )}
 
@@ -97,30 +91,17 @@ export function VideoPlayer({
         onFollow={onFollow}
       />
 
-      {/* Top controls bar */}
-      <div className="absolute top-4 left-4 right-4 flex items-center justify-between pointer-events-auto z-20">
-        {/* Speed control */}
-        <SpeedControl currentSpeed={playbackRate} onSpeedChange={changeSpeed} />
-
-        {/* Fullscreen button */}
-        <button
-          type="button"
-          onClick={toggleFullscreen}
-          className="px-3 py-1.5 rounded-full bg-black/50 hover:bg-black/70 text-white text-sm font-medium transition-colors duration-200"
-          style={{
-            textShadow: '0 1px 2px rgba(0, 0, 0, 0.8)',
-          }}
-        >
-          全屏
-        </button>
-      </div>
-
-      {/* Progress bar (bottom) */}
+      {/* Bottom control bar with progress */}
       <ProgressBar
         currentTime={currentTime}
         duration={duration}
         bufferedTime={bufferedTime}
+        isPlaying={isPlaying}
+        playbackRate={playbackRate}
         onSeek={seek}
+        onTogglePlay={togglePlay}
+        onSpeedChange={changeSpeed}
+        onToggleFullscreen={toggleFullscreen}
       />
 
       {/* Overlay gradient mask for better text visibility */}

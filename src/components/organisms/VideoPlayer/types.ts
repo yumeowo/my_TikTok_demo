@@ -2,6 +2,7 @@
  * VideoPlayer Component Types
  * Defines all interfaces for the Douyin-style video player
  */
+import type React from "react";
 
 export interface AuthorInfo {
   name: string;
@@ -18,6 +19,7 @@ export interface VideoStats {
 
 export interface VideoInfo {
   title: string;
+  createTime: number;
   description: string;
   author: AuthorInfo;
   stats: VideoStats;
@@ -34,14 +36,19 @@ export interface VideoPlayerProps {
   onShare?: () => void;
   onFollow?: () => void;
   // Style override
-  className?: string;
+  style?: React.CSSProperties;
 }
 
 export interface ProgressBarProps {
   currentTime: number;
   duration: number;
   bufferedTime: number;
+  isPlaying: boolean;
+  playbackRate: number;
   onSeek: (time: number) => void;
+  onTogglePlay: () => void;
+  onSpeedChange: (speed: number) => void;
+  onToggleFullscreen: () => void;
 }
 
 export interface InfoOverlayProps {
