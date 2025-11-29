@@ -38,3 +38,30 @@
 .semi-sidesheet-body {
   background-color: #000000;
 }
+
+/* Danmaku input styles */
+.danmaku-input.semi-input-wrapper {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.danmaku-input .semi-input {
+  background-color: transparent !important;
+  color: #9a9b9f !important;
+  font-size: 14px !important;
+  padding-left: 12px !important;
+}
+
+.danmaku-input .semi-input::placeholder {
+  color: #7a7b85 !important;
+}
+
+.danmaku-input .semi-input:focus {
+  background-color: transparent !important;
+}
+
+.danmaku-input.semi-input-wrapper-focus {
+  border: none !important;
+  box-shadow: none !important;
+}
