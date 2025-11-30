@@ -45,10 +45,14 @@ export interface ProgressBarProps {
   bufferedTime: number;
   isPlaying: boolean;
   playbackRate: number;
+  volume: number;
+  isMuted: boolean;
   onSeek: (time: number) => void;
   onTogglePlay: () => void;
   onSpeedChange: (speed: number) => void;
   onToggleFullscreen: () => void;
+  onVolumeChange: (volume: number) => void;
+  onToggleMute: () => void;
 }
 
 export interface InfoOverlayProps {

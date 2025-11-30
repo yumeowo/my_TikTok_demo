@@ -28,10 +28,14 @@ export function VideoPlayer({
     bufferedTime,
     isPlaying,
     playbackRate,
+    volume,
+    isMuted,
     togglePlay,
     seek,
     changeSpeed,
     toggleFullscreen,
+    changeVolume,
+    toggleMute,
   } = useVideoPlayer({
     videoUrl,
     videoId,
@@ -98,10 +102,14 @@ export function VideoPlayer({
         bufferedTime={bufferedTime}
         isPlaying={isPlaying}
         playbackRate={playbackRate}
+        volume={volume}
+        isMuted={isMuted}
         onSeek={seek}
         onTogglePlay={togglePlay}
         onSpeedChange={changeSpeed}
         onToggleFullscreen={toggleFullscreen}
+        onVolumeChange={changeVolume}
+        onToggleMute={toggleMute}
       />
 
       {/* Overlay gradient mask for better text visibility */}

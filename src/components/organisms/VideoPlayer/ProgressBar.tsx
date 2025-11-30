@@ -4,11 +4,17 @@
  */
 
 import {
-  IconIndenpentCornersStroked,
+  IconClockStroked,
+  IconFullScreenStroked,
+  IconMaximize,
+  IconMinimize,
+  IconMuteStroked,
   IconPause,
   IconPlay,
+  IconVideoStroked,
+  IconVolume2Stroked,
 } from '@douyinfe/semi-icons';
-import { Button, Dropdown, Input, Tooltip } from '@douyinfe/semi-ui';
+import { Button, Dropdown, DropdownItem, Input, Slider, Switch, Tooltip } from '@douyinfe/semi-ui';
 import { motion } from 'framer-motion';
 import { type MouseEvent, useCallback, useRef, useState } from 'react';
 import type { ProgressBarProps } from './types';
@@ -29,6 +35,7 @@ function formatTime(seconds: number): string {
 
 // Speed options
 const SPEED_OPTIONS = [0.5, 0.75, 1, 1.25, 1.5, 2];
+const QUALITY_OPTIONS = ["标清 540p","高清 720p","超清 1080p","智能"];
 
 export function ProgressBar({
   currentTime,
@@ -36,10 +43,14 @@ export function ProgressBar({
   bufferedTime,
   isPlaying,
   playbackRate,
+  volume,
+  isMuted,
   onSeek,
   onTogglePlay,
   onSpeedChange,
   onToggleFullscreen,
+  onVolumeChange,
+  onToggleMute,
 }: ProgressBarProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
@@ -106,9 +117,11 @@ export function ProgressBar({
     onTogglePlay();
   };
 
+  const [isFullscreen, setIsFullscreen] = useState(false);
   // Handle fullscreen button click
   const handleFullscreenClick = (e: MouseEvent) => {
     e.stopPropagation();
+    setIsFullscreen((prev) => !prev);
     onToggleFullscreen();
   };
 
@@ -120,6 +133,17 @@ export function ProgressBar({
       <path d="M17 18V22" stroke="#696969" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   )
+
+  const [selectQuality, setSelectQuality] = useState("智能");
+
+  // Handle mute button click
+  const handleMuteClick = (e: MouseEvent) => {
+    e.stopPropagation();
+    onToggleMute();
+  };
+
+  // Get volume icon based on current state
+  const VolumeIcon = isMuted ? IconMuteStroked : IconVolume2Stroked;
 
   return (
     <div
@@ -272,8 +296,56 @@ export function ProgressBar({
           </div>
         </div>
 
-        {/* Right section: Speed + Fullscreen */ }
+        {/* Right section */ }
         <div className="flex items-center gap-2">
+          <Tooltip content="自动连播" position="top">
+            <button
+              type="button"
+              className="flex items-center gap-1 justify-between px-1 text-sm text-white hover:text-white/80 transition-colors"
+            >
+              <Switch size="small" className="bg-[#bebec1]" />
+              <span>连播</span>
+            </button>
+          </Tooltip>
+          <Tooltip content="清屏" position="top">
+            <button
+              type="button"
+              className="flex items-center justify-center px-1 text-sm text-white hover:text-white/80 transition-colors"
+            >
+              <Switch size="small" className="bg-[#bebec1]" />
+              <span>清屏</span>
+            </button>
+          </Tooltip>
+          {/* Quality selector */}
+          <Dropdown
+            position="top"
+            className="flex-col justify-center items-center rounded-xl bg-[#252632] p-1"
+            trigger="hover"
+            clickToHide={true}
+            render={
+              <Dropdown.Menu>
+                {QUALITY_OPTIONS.map((quality) => (
+                  <Dropdown.Item
+                    key={quality}
+                    className="py-2 px-4 rounded-lg mx-2 text-[#bebec2] hover:bg-[#353641] hover:text-[#fff]"
+                    active={selectQuality === quality}
+                    onClick={() => {
+                      setSelectQuality(quality);
+                    }}
+                  >
+                    {quality}
+                  </Dropdown.Item>
+                ))}
+              </Dropdown.Menu>
+            }
+          >
+            <Button
+              theme="borderless"
+              className="flex items-center justify-center px-2 h-8 text-white text-sm hover:text-white/80 transition-colors"
+            >
+              {selectQuality}
+            </Button>
+          </Dropdown>
           {/* Speed control */ }
           <Dropdown
             position="top"
@@ -305,14 +377,84 @@ export function ProgressBar({
             </Button>
           </Dropdown>
 
+          <Tooltip content="稍后再看" position="top">
+            <button
+              type="button"
+              className="flex items-center justify-center w-8 h-8 text-white hover:text-white/80 transition-colors"
+            >
+              <IconClockStroked size="large" />
+            </button>
+          </Tooltip>
+          <Tooltip content="小窗模式" position="top">
+            <button
+              type="button"
+              className="flex items-center justify-center w-8 h-8 text-white hover:text-white/80 transition-colors"
+            >
+              <IconVideoStroked size="large" />
+            </button>
+          </Tooltip>
+
+          {/* Volume control */}
+          <Dropdown
+            position="top"
+            className="flex-col justify-center items-center rounded-xl bg-[#252632] p-1"
+            trigger="hover"
+            clickToHide={true}
+            render={
+              <Dropdown.Menu>
+                <DropdownItem
+                  className="flex flex-col justify-center items-center py-2 px-3"
+                  onClick={(e) => e.stopPropagation()}
+                  onKeyDown={(e) => e.stopPropagation()}
+                >
+                  {/* Volume percentage display */}
+                  <span className="text-[#bebec2] text-sm mb-2">
+                    {isMuted ? 0 : Math.round(volume * 100)}
+                  </span>
+                  {/* Vertical Slider */}
+                  <Slider
+                    vertical
+                    verticalReverse
+                    value={isMuted ? 0 : volume * 100}
+                    onChange={(val) => onVolumeChange((val as number) / 100)}
+                    min={0}
+                    max={100}
+                    step={1}
+                    tooltipVisible={false}
+                    railStyle={{
+                      backgroundColor: '#FE2C55',
+                    }}
+                    className="h-[120px] justify-self-center self-center"
+                  />
+                </DropdownItem>
+              </Dropdown.Menu>
+            }
+          >
+            <Button
+              theme="borderless"
+              onClick={handleMuteClick}
+              className="flex items-center justify-center w-8 h-8 text-white hover:text-white/80 transition-colors"
+            >
+              <VolumeIcon size="large" />
+            </Button>
+          </Dropdown>
+
+          <Tooltip content="网页全屏" position="top">
+            <button
+              type="button"
+              className="flex items-center justify-center w-8 h-8 text-white hover:text-white/80 transition-colors"
+            >
+              <IconFullScreenStroked size="large" />
+            </button>
+          </Tooltip>
           {/* Fullscreen button */}
-          <Tooltip content="全屏" position="top">
+          <Tooltip content="进入全屏" position="top">
             <button
               type="button"
               onClick={handleFullscreenClick}
               className="flex items-center justify-center w-8 h-8 text-white hover:text-white/80 transition-colors"
             >
-              <IconIndenpentCornersStroked size="large" />
+              {isFullscreen ? <IconMinimize size="large" /> : <IconMaximize size="large" />}
             </button>
           </Tooltip>
         </div>

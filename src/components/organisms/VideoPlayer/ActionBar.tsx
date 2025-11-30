@@ -1,25 +1,14 @@
 import {
-  IconBookmarkAddStroked,
-  IconComment,
+  IconComment, IconForward,
   IconLikeHeart,
   IconPlusCircle,
-  IconShareStroked,
+  IconStar,
 } from '@douyinfe/semi-icons';
 import { Avatar } from '@douyinfe/semi-ui';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import type { ActionBarProps } from './types';
-
-// Format large numbers (e.g., 10000 -> 1.0万)
-function formatCount(count: number): string {
-  if (count >= 10000) {
-    return `${(count / 10000).toFixed(1)}万`;
-  }
-  if (count >= 1000) {
-    return `${(count / 1000).toFixed(1)}k`;
-  }
-  return count.toString();
-}
+import { formatCount } from "@/utils/format";
 
 interface ActionButtonProps {
   icon: React.ReactNode;
@@ -81,14 +70,10 @@ export function ActionBar({
   stats,
   onLike,
   onComment,
-  onFavorite,
-  onShare,
   onFollow,
-  isLiked: initialIsLiked = false,
-  isFavorited: initialIsFavorited = false,
+  isLiked: initialIsLiked = false
 }: ActionBarProps) {
   const [isLiked, setIsLiked] = useState(initialIsLiked);
-  const [isFavorited, setIsFavorited] = useState(initialIsFavorited);
   const [localStats, setLocalStats] = useState(stats);
 
   const handleLike = () => {
@@ -100,14 +85,14 @@ export function ActionBar({
     onLike?.();
   };
 
-  const handleFavorite = () => {
-    setIsFavorited(!isFavorited);
-    setLocalStats((prev) => ({
-      ...prev,
-      favorites: isFavorited ? prev.favorites - 1 : prev.favorites + 1,
-    }));
-    onFavorite?.();
-  };
+  // const handleFavorite = () => {
+  //   setIsFavorited(!isFavorited);
+  //   setLocalStats((prev) => ({
+  //     ...prev,
+  //     favorites: isFavorited ? prev.favorites - 1 : prev.favorites + 1,
+  //   }));
+  //   onFavorite?.();
+  // };
 
   return (
     <div className="absolute right-4 bottom-28 flex flex-col items-center gap-6" style={{ zIndex: 15 }}>
@@ -159,18 +144,15 @@ export function ActionBar({
 
       {/* Favorite Button */}
       <ActionButton
-        icon={<IconBookmarkAddStroked size="extra-large" />}
+        icon={<IconStar size="extra-large" />}
         count={localStats.favorites}
-        active={isFavorited}
-        onClick={handleFavorite}
         activeColor="#FFD700"
       />
 
       {/* Share Button */}
       <ActionButton
-        icon={<IconShareStroked size="extra-large" />}
+        icon={<IconForward size="extra-large" />}
         count={localStats.shares}
-        onClick={onShare}
       />
     </div>
   );

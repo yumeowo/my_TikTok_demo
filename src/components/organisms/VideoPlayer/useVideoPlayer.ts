@@ -44,6 +44,28 @@ export function useVideoPlayer({
   const [playbackRate, setPlaybackRate] = useState(1);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
+  // Volume state with localStorage persistence
+  const VOLUME_STORAGE_KEY = 'video-player-volume';
+  const MUTED_STORAGE_KEY = 'video-player-muted';
+
+  const getInitialVolume = () => {
+    if (typeof window === 'undefined') return 0.7;
+    const stored = localStorage.getItem(VOLUME_STORAGE_KEY);
+    return stored ? Number.parseFloat(stored) : 0.7;
+  };
+
+  const getInitialMuted = () => {
+    if (typeof window === 'undefined') return false;
+    return localStorage.getItem(MUTED_STORAGE_KEY) === 'true';
+  };
+
+  const [volume, setVolume] = useState(getInitialVolume);
+  const [isMuted, setIsMuted] = useState(getInitialMuted);
+
+  // Use refs for initial volume to avoid re-initializing player
+  const initialVolumeRef = useRef(getInitialVolume());
+  const initialMutedRef = useRef(getInitialMuted());
+
   // Initialize player
   useEffect(() => {
     if (!containerRef.current || playerRef.current) return;
@@ -97,6 +119,10 @@ export function useVideoPlayer({
 
     playerRef.current = player;
 
+    // Set initial volume from refs
+    player.volume = initialMutedRef.current ? 0 : initialVolumeRef.current;
+    player.muted = initialMutedRef.current;
+
     return () => {
       if (playerRef.current) {
         playerRef.current.destroy();
@@ -104,6 +130,13 @@ export function useVideoPlayer({
       }
     };
   }, [videoUrl, onTimeUpdate, onProgress]);
+
+  // Sync volume state with player
+  useEffect(() => {
+    if (!playerRef.current) return;
+    playerRef.current.volume = isMuted ? 0 : volume;
+    playerRef.current.muted = isMuted;
+  }, [volume, isMuted]);
 
   // Play/Pause toggle
   const togglePlay = useCallback(() => {
@@ -128,6 +161,52 @@ export function useVideoPlayer({
     playerRef.current.playbackRate = speed;
     setPlaybackRate(speed);
   }, []);
+
+  // Change volume with localStorage persistence
+  const changeVolume = useCallback((newVolume: number) => {
+    const clampedVolume = Math.max(0, Math.min(1, newVolume));
+    setVolume(clampedVolume);
+    localStorage.setItem(VOLUME_STORAGE_KEY, clampedVolume.toString());
+
+    // If changing volume while muted, unmute
+    if (isMuted && clampedVolume > 0) {
+      setIsMuted(false);
+      localStorage.setItem(MUTED_STORAGE_KEY, 'false');
+    }
+  }, [isMuted]);
+
+  // Toggle mute with localStorage persistence
+  const toggleMute = useCallback(() => {
+    setIsMuted((prev) => {
+      const newMuted = !prev;
+      localStorage.setItem(MUTED_STORAGE_KEY, newMuted.toString());
+      return newMuted;
+    });
+  }, []);
+
+  // Handle wheel event for volume control
+  const handleVolumeWheel = useCallback(
+    (e: WheelEvent) => {
+      // Only handle wheel events on the video container
+      if (!containerRef.current?.contains(e.target as Node)) return;
+
+      e.preventDefault();
+      const delta = e.deltaY > 0 ? -0.05 : 0.05; // Scroll up = increase, scroll down = decrease
+      changeVolume(volume + delta);
+    },
+    [volume, changeVolume]
+  );
+
+  // Attach wheel event listener for volume control
+  useEffect(() => {
+    const container = containerRef.current?.parentElement;
+    if (!container) return;
+
+    container.addEventListener('wheel', handleVolumeWheel, { passive: false });
+    return () => {
+      container.removeEventListener('wheel', handleVolumeWheel);
+    };
+  }, [handleVolumeWheel]);
 
   // Toggle fullscreen
   const toggleFullscreen = useCallback(() => {
@@ -197,9 +276,13 @@ export function useVideoPlayer({
     isPlaying,
     playbackRate,
     isFullscreen,
+    volume,
+    isMuted,
     togglePlay,
     seek,
     changeSpeed,
     toggleFullscreen,
+    changeVolume,
+    toggleMute,
   };
 }
